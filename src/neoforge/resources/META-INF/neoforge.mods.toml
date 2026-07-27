@@ -1,0 +1,26 @@
+modLoader = "javafml"
+loaderVersion = "[1,)"
+license = "${license}"
+
+[[mods]]
+modId = "forever_pets"
+version = "${version}"
+displayName = "Forever Pets"
+logoFile = "assets/forever-pets/icon.png"
+displayURL = "${homepage}"
+authors = "${authors}"
+description = '''${description}'''
+
+[[dependencies.forever_pets]]
+modId = "neoforge"
+type = "required"
+versionRange = "[${neoforgeVersion},)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.forever_pets]]
+modId = "minecraft"
+type = "required"
+versionRange = "${neoForgeMinecraftRange}"
+ordering = "NONE"
+side = "BOTH"

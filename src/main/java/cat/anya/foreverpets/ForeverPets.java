@@ -1,41 +1,37 @@
 package cat.anya.foreverpets;
 
-import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.TamableAnimal;
+/*? if neoforge {*/
+/*? if >=1.21.11 {*/
 import net.minecraft.world.entity.animal.feline.Cat;
 import net.minecraft.world.entity.animal.parrot.Parrot;
+/*?} else {*/
+/*import net.minecraft.world.entity.animal.Cat;
+import net.minecraft.world.entity.animal.Parrot;*/
+/*?}*/
+/*?} else {*/
+/*? if >=26.1 {*/
+/*import net.minecraft.world.entity.animal.feline.Cat;
+import net.minecraft.world.entity.animal.parrot.Parrot;*/
+/*?} else {*/
+/*import net.minecraft.world.entity.animal.Cat;
+import net.minecraft.world.entity.animal.Parrot;*/
+/*?}*/
+/*?}*/
+/*? if >=1.21.5 {*/
 import net.minecraft.world.entity.animal.wolf.Wolf;
+/*?} else {*/
+/*import net.minecraft.world.entity.animal.Wolf;*/
+/*?}*/
 
-public class ForeverPets implements ModInitializer {
-    @Override
-    public void onInitialize() {
-        ServerLivingEntityEvents.ALLOW_DAMAGE.register(this::onEntityDamageOrDeath);
-        ServerLivingEntityEvents.ALLOW_DEATH.register(this::onEntityDamageOrDeath);
-        ServerEntityEvents.ENTITY_LOAD.register(this::onEntityLoad);
+public final class ForeverPets {
+    public static final String MOD_ID = "forever_pets";
+
+    private ForeverPets() {
     }
 
-    private boolean onEntityDamageOrDeath(LivingEntity entity, DamageSource source, float amount) {
-        if (isEligiblePet(entity)) {
-            makeImmortal((TamableAnimal) entity);
-            return false;
-        }
-
-        return true;
-    }
-
-    private void onEntityLoad(Entity entity, ServerLevel level) {
-        if (isEligiblePet(entity)) {
-            makeImmortal((TamableAnimal) entity);
-        }
-    }
-
-    private boolean isEligiblePet(Entity entity) {
+    public static boolean protectIfEligible(Entity entity) {
         if (!(entity instanceof TamableAnimal tamableAnimal)) {
             return false;
         }
@@ -44,11 +40,20 @@ public class ForeverPets implements ModInitializer {
             return false;
         }
 
-        return tamableAnimal.isTame() && tamableAnimal.getOwnerReference() != null;
+        if (!tamableAnimal.isTame() || !hasOwner(tamableAnimal)) {
+            return false;
+        }
+
+        tamableAnimal.setInvulnerable(true);
+        tamableAnimal.setHealth(tamableAnimal.getMaxHealth());
+        return true;
     }
 
-    private void makeImmortal(TamableAnimal pet) {
-        pet.setInvulnerable(true);
-        pet.setHealth(pet.getMaxHealth());
+    private static boolean hasOwner(TamableAnimal pet) {
+        /*? if >=1.21.5 {*/
+        return pet.getOwnerReference() != null;
+        /*?} else {*/
+        /*return pet.getOwnerUUID() != null;*/
+        /*?}*/
     }
 }

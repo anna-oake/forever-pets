@@ -6,20 +6,20 @@
   "description": "Makes tamed cats, wolves and parrots immortal.",
   "authors": ["anna-oake"],
   "contact": {
-    "homepage": "https://github.com/anna-oake/forever-pets",
-    "sources": "https://github.com/anna-oake/forever-pets"
+    "homepage": "${homepage}",
+    "sources": "${sources}"
   },
-  "license": "MIT",
+  "license": "${license}",
   "icon": "assets/forever-pets/icon.png",
   "environment": "*",
   "entrypoints": {
-    "main": ["cat.anya.foreverpets.ForeverPets"]
+    "main": ["cat.anya.foreverpets.ForeverPetsFabric"]
   },
   "mixins": [],
   "depends": {
-    "fabricloader": ">=${loader_version}",
-    "minecraft": "${minecraft_range}",
-    "java": ">=25",
-    "fabric-api": "*"
+    "fabricloader": ">=${loaderVersion}",
+    "minecraft": "${fabricMinecraftRange}",
+    "java": ">=${javaVersion}",
+    "fabric-api": ">=${fabricVersion}"
   }
 }
